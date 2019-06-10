@@ -1,0 +1,43 @@
+[
+  {
+    "name": "zookeeper",
+    "image": "zookeeper:3.5",
+    "cpu": 0,
+    "memory": 512,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "zookeeper",
+        "awslogs-group": "/${name}/zoo${zoo_my_id}"
+      }
+    },
+    "portMappings": [
+      {
+        "containerPort": 2181,
+        "hostPort": 2181,
+        "protocol": "tcp"
+      },
+      {
+        "containerPort": 2888,
+        "hostPort": 2888,
+        "protocol": "tcp"
+      },
+      {
+        "containerPort": 3888,
+        "hostPort": 3888,
+        "protocol": "tcp"
+      }
+    ],
+    "environment": [
+      {
+        "name": "ZOO_MY_ID",
+        "value": "${zoo_my_id}"
+      },
+      {
+        "name": "ZOO_SERVERS",
+        "value": "quorumListenOnAllIPs=true ${zoo_servers}"
+      }
+    ]
+  }
+]
